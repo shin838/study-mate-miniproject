@@ -1,0 +1,7 @@
+# data Source
+spring.datasource.url=jdbc:mysql://localhost:3306/study-mate-mini
+spring.datasource.username=root
+spring.datasource.password=
+
+# jwt secret key
+# myapp.jwt.secret=
