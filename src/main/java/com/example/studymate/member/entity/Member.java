@@ -26,7 +26,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long memberId;
+    private Integer memberId;
     
     // 로그인 시 아이디 역할로 사용됨
     private String email;
