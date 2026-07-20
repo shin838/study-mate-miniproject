@@ -48,6 +48,7 @@ public class Member {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    
     // 사용자 권한 리스트 (MemberRole 엔티티를 통해 Role 테이블과 다대다 매핑 해소)
     // 회원이 삭제되면 가지고 있던 권한 매핑 정보도 함께 삭제됨 (cascade)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
