@@ -5,5 +5,5 @@ import com.example.studymate.study.dto.StudyResponseDto;
 
 public interface StudyService {
 	
-	StudyResponseDto createStudy(StudyRequestDto request);
+	StudyResponseDto createStudy(StudyRequestDto request, Integer memberId);
 }

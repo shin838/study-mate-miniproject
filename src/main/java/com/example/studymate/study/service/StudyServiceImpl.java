@@ -1,7 +1,10 @@
 package com.example.studymate.study.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.studymate.member.entity.Member;
+import com.example.studymate.member.repository.MemberRepository;
 import com.example.studymate.study.dto.StudyRequestDto;
 import com.example.studymate.study.dto.StudyResponseDto;
 import com.example.studymate.study.entity.Study;
@@ -14,18 +17,18 @@ import lombok.RequiredArgsConstructor;
 public class StudyServiceImpl implements StudyService {
 
 	private final StudyRepository studyRepository;
-	
+	private final MemberRepository memberRepository;
+
 	@Override
-	public StudyResponseDto createStudy(StudyRequestDto request) {
-		Study study = Study.create(
-				request.getTitle(),
-				request.getContent(),
-				request.getMaxMember()
-			);
-		
-				
+	@Transactional
+	public StudyResponseDto createStudy(StudyRequestDto request, Integer memberId) {
+
+		Member member = memberRepository.findById(memberId).orElseThrow();
+
+		Study study = Study.create(request.getTitle(), request.getContent(), request.getMaxMember(), member);
+
 		Study savedStudy = studyRepository.save(study);
-		
+
 		return StudyResponseDto.from(savedStudy);
 	}
 }

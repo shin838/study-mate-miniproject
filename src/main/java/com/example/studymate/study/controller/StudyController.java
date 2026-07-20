@@ -26,7 +26,7 @@ public class StudyController {
 			@Valid @RequestBody StudyRequestDto studyRequestDto
 			
 	) {
-		StudyResponseDto studyResponseDto = studyService.createStudy(studyRequestDto);
+		StudyResponseDto studyResponseDto = studyService.createStudy(studyRequestDto, 1); // 추후 auth 확인하고 수
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(studyResponseDto);
 	}

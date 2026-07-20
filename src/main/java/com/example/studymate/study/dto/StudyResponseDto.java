@@ -15,6 +15,8 @@ public class StudyResponseDto {
 	private String content;
 	private int maxMember;
 	private StudyStatus status;
+	private Integer leaderId;
+	private String leaderNickname;
 	
 	public static StudyResponseDto from(Study study) {
 		return new StudyResponseDto(
@@ -22,7 +24,9 @@ public class StudyResponseDto {
 				study.getTitle(),
 				study.getContent(),
 				study.getMaxMember(),
-				study.getStatus()
+				study.getStatus(),
+				study.getLeader().getMemberId(),
+	            study.getLeader().getNickname()
 			);
 	}
 }
