@@ -1,5 +1,7 @@
 package com.example.studymate.study.dto;
 
+import java.time.LocalDateTime;
+
 import com.example.studymate.study.entity.Study;
 import com.example.studymate.study.entity.StudyStatus;
 
@@ -15,8 +17,9 @@ public class StudyResponseDto {
 	private String content;
 	private int maxMember;
 	private StudyStatus status;
-	private Integer leaderId;
-	private String leaderNickname;
+	private Integer creatorId;
+	private String creatorNickname;
+	private LocalDateTime createdAt;
 	
 	public static StudyResponseDto from(Study study) {
 		return new StudyResponseDto(
@@ -25,8 +28,9 @@ public class StudyResponseDto {
 				study.getContent(),
 				study.getMaxMember(),
 				study.getStatus(),
-				study.getLeader().getMemberId(),
-	            study.getLeader().getNickname()
-			);
+				study.getCreator().getMemberId(),
+	            study.getCreator().getNickname(),
+	            study.getCreatedAt()
+	     );
 	}
 }

@@ -1,5 +1,9 @@
 package com.example.studymate.study.entity;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.example.studymate.member.entity.Member;
 
 import jakarta.persistence.Column;
@@ -43,22 +47,26 @@ public class Study {
 	private StudyStatus status;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "leader_id", nullable = false)
-	private Member leader;
+	@JoinColumn(name = "creator_id", nullable = false)
+	private Member creator;
 
-	private Study(String title, String content, int maxMember, Member leader) {
+	@CreationTimestamp
+	@Column(name = "created_at", nullable = false, updatable = false)
+	private LocalDateTime createdAt;
+
+	private Study(String title, String content, int maxMember, Member creator) {
 		this.title = title;
 		this.content = content;
 		this.maxMember = maxMember;
-		this.leader = leader;
+		this.creator = creator;
 		this.status = StudyStatus.RECRUITING;
 	}
 
-	public static Study create(String title, String content, int maxMember, Member leader) {
+	public static Study create(String title, String content, int maxMember, Member creator) {
 		if (maxMember < 1) {
 			throw new IllegalArgumentException("최대 인원은 1명 이상이어야 합니다.");
 		}
-		return new Study(title, content, maxMember, leader);
+		return new Study(title, content, maxMember, creator);
 	}
 
 }

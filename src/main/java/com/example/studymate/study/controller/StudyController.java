@@ -20,16 +20,14 @@ import lombok.RequiredArgsConstructor;
 public class StudyController {
 
 	private final StudyService studyService;
-	
+
 	@PostMapping
 	public ResponseEntity<StudyResponseDto> createStudy(
 			@Valid @RequestBody StudyRequestDto studyRequestDto
-			
 	) {
 		StudyResponseDto studyResponseDto = studyService.createStudy(studyRequestDto, 1); // 추후 auth 확인하고 수
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(studyResponseDto);
 	}
-	
-	
+
 }

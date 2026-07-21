@@ -22,12 +22,12 @@ class StudyTest {
 		assertEquals("Git에 대해 공부하실 분 모집", study.getContent());
 		assertEquals(3, study.getMaxMember());
 		assertEquals(StudyStatus.RECRUITING, study.getStatus());
-		assertSame(member, study.getLeader());
+		assertSame(member, study.getCreator());
 	}
 	
 	@Test
 	void test2() { // 최대 인원이 0이면 스터디 생성 불가
-	    Member member = Member.builder()
+	    Member creator = Member.builder()
 	            .memberId(1)
 	            .nickname("테스트")
 	            .build();
@@ -38,7 +38,7 @@ class StudyTest {
 	                    "Git 스터디",
 	                    "Git 공부하실 분",
 	                    0,
-	                    member
+	                    creator
 	            )
 	    );
 

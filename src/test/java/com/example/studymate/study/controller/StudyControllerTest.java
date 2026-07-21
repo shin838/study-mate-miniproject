@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -31,6 +33,9 @@ class StudyControllerTest {
     @MockitoBean
     private StudyService studyService;
 
+    LocalDateTime createdAt =
+            LocalDateTime.of(2026, 7, 21, 14, 30);
+
     @Test
     void test1() throws Exception { // 정상적인 스터디 생성 요청이면 201 반환
         StudyResponseDto response = new StudyResponseDto(
@@ -40,7 +45,8 @@ class StudyControllerTest {
                 3,
                 StudyStatus.RECRUITING,
                 1,
-                "테스트"
+                "테스트",
+                createdAt
         );
 
         when(studyService.createStudy(any(), eq(1))) // eq(1) : controller 하드코딩 때문에 임시로 사용
@@ -63,8 +69,9 @@ class StudyControllerTest {
                 .andExpect(jsonPath("$.content").value("Git 공부하실 분"))
                 .andExpect(jsonPath("$.maxMember").value(3))
                 .andExpect(jsonPath("$.status").value("RECRUITING"))
-                .andExpect(jsonPath("$.leaderId").value(1))
-                .andExpect(jsonPath("$.leaderNickname").value("테스트"));
+                .andExpect(jsonPath("$.creatorId").value(1))
+                .andExpect(jsonPath("$.creatorNickname").value("테스트"))
+                .andExpect(jsonPath("$.createdAt").value("2026-07-21T14:30:00"));
     }
     
     @Test

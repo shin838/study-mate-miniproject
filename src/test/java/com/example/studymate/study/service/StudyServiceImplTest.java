@@ -61,8 +61,8 @@ class StudyServiceImplTest {
 		assertEquals("Git 공부하실 분", response.getContent());
 		assertEquals(3, response.getMaxMember());
 		assertEquals(StudyStatus.RECRUITING, response.getStatus());
-		assertEquals(memberId, response.getLeaderId());
-		assertEquals("테스트", response.getLeaderNickname());
+		assertEquals(memberId, response.getCreatorId());
+		assertEquals("테스트", response.getCreatorNickname());
 		
 		verify(memberRepository).findById(memberId); // 해당 메서드가 실제로 호출됐는지 확인
 		verify(studyRepository).save(any(Study.class));

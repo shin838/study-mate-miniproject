@@ -23,9 +23,9 @@ public class StudyServiceImpl implements StudyService {
 	@Transactional
 	public StudyResponseDto createStudy(StudyRequestDto request, Integer memberId) {
 
-		Member member = memberRepository.findById(memberId).orElseThrow();
+		Member creator = memberRepository.findById(memberId).orElseThrow();
 
-		Study study = Study.create(request.getTitle(), request.getContent(), request.getMaxMember(), member);
+		Study study = Study.create(request.getTitle(), request.getContent(), request.getMaxMember(), creator);
 
 		Study savedStudy = studyRepository.save(study);
 
