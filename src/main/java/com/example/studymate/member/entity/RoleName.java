@@ -1,4 +1,4 @@
-package com.example.studymate.entity;
+package com.example.studymate.member.entity;
 
 public enum RoleName {
     ROLE_USER,

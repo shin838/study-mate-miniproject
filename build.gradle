@@ -35,6 +35,38 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
+def windowsTestWorkDir = new File(System.getProperty('java.io.tmpdir'), 'study-mate-miniproject-test')
+def copiedMainClassesDir = new File(windowsTestWorkDir, 'main-classes')
+def copiedMainResourcesDir = new File(windowsTestWorkDir, 'main-resources')
+def copiedTestClassesDir = new File(windowsTestWorkDir, 'test-classes')
+
+tasks.register('copyClassesForWindowsTest') {
+	dependsOn tasks.named('classes'), tasks.named('testClasses')
+
+	doLast {
+		delete windowsTestWorkDir
+
+		copy {
+			from sourceSets.main.output.classesDirs
+			into copiedMainClassesDir
+		}
+
+		copy {
+			from sourceSets.main.output.resourcesDir
+			into copiedMainResourcesDir
+		}
+
+		copy {
+			from sourceSets.test.output.classesDirs
+			into copiedTestClassesDir
+		}
+	}
+}
+
 tasks.named('test') {
+	dependsOn tasks.named('copyClassesForWindowsTest')
 	useJUnitPlatform()
+
+	testClassesDirs = files(copiedTestClassesDir)
+	classpath = files(copiedTestClassesDir, copiedMainClassesDir, copiedMainResourcesDir) + configurations.testRuntimeClasspath
 }

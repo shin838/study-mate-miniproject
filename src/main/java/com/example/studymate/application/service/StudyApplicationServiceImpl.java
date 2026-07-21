@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.studymate.application.entity.ApplicationStatus;
+import com.example.studymate.application.entity.StudyApplication;
 import com.example.studymate.application.repository.StudyApplicationRepository;
-import com.example.studymate.entity.ApplicationStatus;
-import com.example.studymate.entity.Member;
-import com.example.studymate.entity.Study;
-import com.example.studymate.entity.StudyApplication;
-import com.example.studymate.entity.StudyStatus;
+import com.example.studymate.member.entity.Member;
 import com.example.studymate.member.repository.MemberRepository;
+import com.example.studymate.study.entity.Study;
+import com.example.studymate.study.entity.StudyStatus;
 import com.example.studymate.study.repository.StudyRepository;
 
 import lombok.RequiredArgsConstructor;

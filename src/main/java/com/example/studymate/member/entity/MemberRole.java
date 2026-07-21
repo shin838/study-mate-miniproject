@@ -1,4 +1,4 @@
-package com.example.studymate.entity;
+package com.example.studymate.member.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

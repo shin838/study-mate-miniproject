@@ -1,4 +1,4 @@
-package com.example.studymate.entity;
+package com.example.studymate.member.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.studymate.application.dto.StudyApplicationResponseDto;
 import com.example.studymate.application.service.StudyApplicationService;
-import com.example.studymate.entity.StudyApplication;
+import com.example.studymate.application.entity.StudyApplication;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.example.studymate.entity;
+package com.example.studymate.member.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +45,7 @@ public class Member {
 
     // 사용자 권한 리스트 (MemberRole 엔티티를 통해 Role 테이블과 다대다 매핑 해소)
     // 회원이 삭제되면 가지고 있던 권한 매핑 정보도 함께 삭제됨 (cascade)
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MemberRole> memberRoles = new ArrayList<>();
 }
