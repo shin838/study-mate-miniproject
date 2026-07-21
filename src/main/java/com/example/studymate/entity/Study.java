@@ -41,18 +41,18 @@ public class Study {
     private StudyStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "leader_id", nullable = false)
-    private Member leader;
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Member creator;
 
-    private Study(String title, String content, int maxMember, Member leader) {
+    private Study(String title, String content, int maxMember, Member creator) {
         this.title = title;
         this.content = content;
         this.maxMember = maxMember;
-        this.leader = leader;
+        this.creator = creator;
         this.status = StudyStatus.RECRUITING;
     }
 
-    public static Study create(String title, String content, int maxMember, Member leader) {
-        return new Study(title, content, maxMember, leader);
+    public static Study create(String title, String content, int maxMember, Member creator) {
+        return new Study(title, content, maxMember, creator);
     }
 }
