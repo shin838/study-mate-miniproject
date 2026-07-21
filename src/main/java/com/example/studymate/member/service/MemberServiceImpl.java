@@ -1,5 +1,7 @@
 package com.example.studymate.member.service;
 
+import java.util.List;
+
 import com.example.studymate.member.dto.MemberRequestDto;
 import com.example.studymate.member.dto.MemberResponseDto;
 import com.example.studymate.member.entity.Member;
@@ -31,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
         MemberResponseDto responseDto = new MemberResponseDto();
 
         try {
-            // 1. DTO 데이터를 기반으로 Member 엔티티 생성 (비밀번호는 반드시 암호화)
+            // 1. DTO 데이터를 기반으로 Member 엔티티 생성 
             Member member = Member.builder()
                     .name(memberDto.getName())
                     .email(memberDto.getEmail())
@@ -61,5 +63,30 @@ public class MemberServiceImpl implements MemberService {
 
         return responseDto;
     }
+
+    // 관리자용: 전체 회원 목록 조회
+    @Override
+    public List<Member> getAllMembers() {
+        return memberRepository.findAll();
+    }
+
+    // 관리자용: 회원 삭제
+    @Override
+    @Transactional
+    public MemberResponseDto deleteMember(Integer memberId) {
+        MemberResponseDto responseDto = new MemberResponseDto();
+
+        try {
+            memberRepository.deleteById(memberId);
+            log.info("Member Deleted: id={}", memberId);
+            responseDto.setResult("success");
+        } catch (Exception e) {
+            log.error("Member Delete Failed: id={}", memberId, e);
+            responseDto.setResult("fail");
+        }
+
+        return responseDto;
+    }
 }
+
 
