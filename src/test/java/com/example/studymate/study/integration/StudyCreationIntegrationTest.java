@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,7 +36,7 @@ class StudyCreationIntegrationTest {
     void test() { // 회원이 스터디를 생성하면 db에 저장되는지 테스트
 
     	Member creator = Member.builder()
-                .email("test@test.com")
+    			.email("study-test-" + UUID.randomUUID() + "@test.com")
                 .password("1234")
                 .name("테스트")
                 .nickname("테스트닉네임")
