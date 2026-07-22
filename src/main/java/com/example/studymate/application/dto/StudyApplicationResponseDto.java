@@ -9,7 +9,7 @@ public class StudyApplicationResponseDto {
 
     private Integer applicationId;
 
-    private Integer memberId;
+    private Long memberId;
     private String memberName;
 
     private Integer studyId;
