@@ -63,9 +63,22 @@ public class Study {
 	}
 
 	public static Study create(String title, String content, int maxMember, Member creator) {
-		if (maxMember < 1) {
+		maxMemberCheck(maxMember);
+		
+		return new Study(title, content, maxMember, creator);
+	}
+	
+	public void update(String title, String content, int maxMember) {
+		maxMemberCheck(maxMember);
+		
+		this.title = title;
+		this.content = content;
+		this.maxMember = maxMember;
+	}
+	
+	private static void maxMemberCheck(int maxMember) {
+		if (maxMember<1) {
 			throw new IllegalArgumentException("최대 인원은 1명 이상이어야 합니다.");
 		}
-		return new Study(title, content, maxMember, creator);
 	}
 }

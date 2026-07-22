@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -13,6 +14,7 @@ import com.example.studymate.member.repository.MemberRepository;
 import com.example.studymate.study.dto.StudyListResponseDto;
 import com.example.studymate.study.dto.StudyRequestDto;
 import com.example.studymate.study.dto.StudyResponseDto;
+import com.example.studymate.study.dto.StudyUpdateRequestDto;
 import com.example.studymate.study.entity.Study;
 import com.example.studymate.study.repository.StudyRepository;
 
@@ -66,4 +68,47 @@ public class StudyServiceImpl implements StudyService {
 
         return StudyResponseDto.from(study);
 	}
+
+	@Override
+	@Transactional
+	public StudyResponseDto updateStudy(Integer studyId, StudyUpdateRequestDto request, Integer memberId) {
+		
+		Study study = studyRepository.findById(studyId).orElseThrow(
+				() -> new NoSuchElementException( "스터디를 찾을 수 없습니다.")
+		);
+				
+		Integer creatorId =
+                study.getCreator().getMemberId();
+
+        if (!creatorId.equals(memberId)) {
+            throw new AccessDeniedException(
+                    "작성자만 스터디를 수정하거나 삭제할 수 있습니다."
+            );
+        }
+		
+		study.update(request.getTitle(), request.getContent(), request.getMaxMember());
+		
+		return StudyResponseDto.from(study);
+	}
+
+	@Override
+	@Transactional
+	public void deleteStudy(Integer studyId, Integer memberId) {
+
+		Study study = studyRepository.findById(studyId).orElseThrow(
+				() -> new NoSuchElementException( "스터디를 찾을 수 없습니다.")
+		);
+
+		Integer creatorId =
+                study.getCreator().getMemberId();
+
+        if (!creatorId.equals(memberId)) {
+            throw new AccessDeniedException(
+                    "작성자만 스터디를 수정하거나 삭제할 수 있습니다."
+            );
+        }
+		
+        studyRepository.delete(study);
+	}
+	
 }
