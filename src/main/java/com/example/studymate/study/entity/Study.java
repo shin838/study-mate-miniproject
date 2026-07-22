@@ -68,5 +68,4 @@ public class Study {
 		}
 		return new Study(title, content, maxMember, creator);
 	}
-
 }
