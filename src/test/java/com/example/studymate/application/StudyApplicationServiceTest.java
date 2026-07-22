@@ -42,7 +42,7 @@ public class StudyApplicationServiceTest {
     // 실제 DB 회원이 아니라 테스트 안에서만 사용하는 가짜 회원 객체다.
     private Member createMember(Integer memberId) {
         return Member.builder()
-                .memberId(memberId.longValue())
+                .memberId(memberId)
                 .email("test@test.com")
                 .password("1234")
                 .name("테스트")

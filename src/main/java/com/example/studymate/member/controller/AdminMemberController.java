@@ -34,7 +34,7 @@ public class AdminMemberController {
 
     // 관리자용 특정 회원 강제 탈퇴
     @DeleteMapping("/{memberId}")
-    public MemberResponseDto deleteMember(@PathVariable Integer memberId) {
+    public MemberResponseDto deleteMember(@PathVariable("memberId") Integer memberId) {
         log.info("Admin: 회원 삭제 요청 id={}", memberId);
         return memberService.deleteMember(memberId);
     }

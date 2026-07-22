@@ -17,7 +17,7 @@ public class CustomUserDetails implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     
     // 로직 꼬임방지용으로 추가한 추가 필드
-    private final Long id;
+    private final Integer id;
     private final String name;
     private final String email;
     private final String nickname;

@@ -15,7 +15,7 @@ public class MemberRole {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
