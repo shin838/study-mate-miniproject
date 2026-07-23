@@ -35,7 +35,9 @@ public class JwtUtil {
 	
 	private SecretKey secretKey; 
 	
-	private final long tokenValidDuration = 1000L * 60 * 60 * 24; // 24 시간	
+	private final long tokenValidDuration = 1000L * 60 * 60 * 3; // 3시간 (Access Token)
+	
+	private final long refreshTokenValidDuration = 1000L * 60 * 60 * 24 * 7; // 7일 (Refresh Token)
 	
 	@PostConstruct
 	protected void init() {
@@ -48,11 +50,25 @@ public class JwtUtil {
 	public String createToken(String username, List<String> roles) {
 		Date now = new Date();
 		
-		return Jwts.builder()
+		
+		
+		  return Jwts.builder()
 				.subject(username)  
 				.claim("roles", roles) 
 				.issuedAt(now)  
+				
 				.expiration(new Date(now.getTime() + tokenValidDuration))
+				 .signWith(secretKey, Jwts.SIG.HS256)
+				.compact();
+	}
+	
+	public String createRefreshToken(String username) {
+		Date now = new Date();
+		
+		return Jwts.builder()
+				.subject(username)
+				.issuedAt(now)
+				.expiration(new Date(now.getTime() + refreshTokenValidDuration))
 				.signWith(secretKey, Jwts.SIG.HS256)
 				.compact();
 	}
