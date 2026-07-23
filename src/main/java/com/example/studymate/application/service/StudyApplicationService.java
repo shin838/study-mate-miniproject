@@ -12,6 +12,7 @@ public interface StudyApplicationService {
     // 참여 취소
     StudyApplication cancelApplication(Integer memberId, Integer studyId);
 
+    // mypage 영역에서 담당
     // 내가 참여한 스터디 조회
-    List<StudyApplication> listMyApplications(Integer memberId);
+//    List<StudyApplication> listMyApplications(Integer memberId);
 }

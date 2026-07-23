@@ -18,61 +18,58 @@ import com.example.studymate.study.dto.StudyResponseDto;
 import com.example.studymate.study.entity.StudyStatus;
 import com.example.studymate.study.repository.StudyRepository;
 import com.example.studymate.study.service.StudyService;
+import com.example.studymate.studymember.entity.StudyMember;
+import com.example.studymate.studymember.entity.StudyRole;
+import com.example.studymate.studymember.repository.StudyMemberRepository;
 
 @SpringBootTest
 @Transactional
 class StudyCreationIntegrationTest {
 
-    @Autowired
-    private StudyService studyService;
+	@Autowired
+	private StudyService studyService;
 
-    @Autowired
-    private StudyRepository studyRepository;
+	@Autowired
+	private StudyRepository studyRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
+	@Autowired
+	private MemberRepository memberRepository;
 
-    @Test
-    void test() { // 회원이 스터디를 생성하면 db에 저장되는지 테스트
+	@Autowired
+	private StudyMemberRepository studyMemberRepository;
 
-    	Member creator = Member.builder()
-    			.email("study-test-" + UUID.randomUUID() + "@test.com")
-                .password("1234")
-                .name("테스트")
-                .nickname("테스트닉네임")
-                .build();
+	@Test
+	void test() { // 회원이 스터디를 생성하면 db에 저장되는지 테스트
 
-        Member savedCreator =
-                memberRepository.saveAndFlush(creator);
+		Member creator = Member.builder().email("study-test-" + UUID.randomUUID() + "@test.com").password("1234")
+				.name("테스트").nickname("테스트닉네임").build();
 
-        StudyRequestDto request = new StudyRequestDto(
-                "테스트 스터디",
-                "테스트 스터디 하실 분",
-                5
-        );
+		Member savedCreator = memberRepository.saveAndFlush(creator);
 
-        StudyResponseDto response =
-                studyService.createStudy(
-                        request,
-                        savedCreator.getMemberId()
-                );
+		StudyRequestDto request = new StudyRequestDto("테스트 스터디", "테스트 스터디 하실 분", 5);
 
-        assertNotNull(response.getStudyId());
-        assertNotNull(response.getCreatedAt());
-        assertEquals("테스트 스터디", response.getTitle());
-        assertEquals("테스트 스터디 하실 분", response.getContent());
-        assertEquals(5, response.getMaxMember());
-        assertEquals(StudyStatus.RECRUITING, response.getStatus());
-        assertEquals(
-                savedCreator.getMemberId(),
-                response.getCreatorId()
-        );
-        assertEquals(
-                "테스트닉네임",
-                response.getCreatorNickname()
-        );
+		StudyResponseDto response = studyService.createStudy(request, savedCreator.getMemberId());
 
-        assertTrue(
-                studyRepository.existsById(response.getStudyId())
-        );
-    }}
+		assertNotNull(response.getStudyId());
+		assertNotNull(response.getCreatedAt());
+		assertEquals("테스트 스터디", response.getTitle());
+		assertEquals("테스트 스터디 하실 분", response.getContent());
+		assertEquals(5, response.getMaxMember());
+		assertEquals(StudyStatus.RECRUITING, response.getStatus());
+		assertEquals(savedCreator.getMemberId(), response.getCreatorId());
+		assertEquals("테스트닉네임", response.getCreatorNickname());
+
+		assertTrue(studyRepository.existsById(response.getStudyId()));
+
+		assertTrue(studyRepository.existsById(response.getStudyId()));
+
+		StudyMember savedLeader = studyMemberRepository
+				.findByStudy_StudyIdAndMember_MemberId(response.getStudyId(), savedCreator.getMemberId()).orElseThrow();
+
+		assertEquals(StudyRole.LEADER, savedLeader.getStudyRole());
+
+		assertEquals(savedCreator.getMemberId(), savedLeader.getMember().getMemberId());
+
+		assertEquals(response.getStudyId(), savedLeader.getStudy().getStudyId());
+	}
+}

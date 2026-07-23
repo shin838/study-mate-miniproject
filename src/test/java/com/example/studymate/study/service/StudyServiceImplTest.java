@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -30,6 +31,9 @@ import com.example.studymate.study.dto.StudyResponseDto;
 import com.example.studymate.study.entity.Study;
 import com.example.studymate.study.entity.StudyStatus;
 import com.example.studymate.study.repository.StudyRepository;
+import com.example.studymate.studymember.entity.StudyMember;
+import com.example.studymate.studymember.entity.StudyRole;
+import com.example.studymate.studymember.repository.StudyMemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 class StudyServiceImplTest {
@@ -39,6 +43,9 @@ class StudyServiceImplTest {
 	
 	@Mock
 	private MemberRepository memberRepository;
+	
+	@Mock
+	private StudyMemberRepository studyMemberRepository;
 	
 	@InjectMocks // 가짜 Repository들을 StudyServiceImpl 에 넣는다
 	private StudyServiceImpl studyService;
@@ -73,6 +80,20 @@ class StudyServiceImplTest {
 		
 		verify(memberRepository).findById(memberId); // 해당 메서드가 실제로 호출됐는지 확인
 		verify(studyRepository).save(any(Study.class));
+		
+	     // StudyMemberRepository.save()로 전달된 객체를 가져와
+	     // 개설자가 LEADER로 저장됐는지 확인한다
+	    ArgumentCaptor<StudyMember> captor =ArgumentCaptor.forClass(StudyMember.class);
+
+	    verify(studyMemberRepository).save(captor.capture());
+
+	    StudyMember savedLeader = captor.getValue();
+
+	    assertEquals(StudyRole.LEADER, savedLeader.getStudyRole());
+
+	    assertEquals(memberId,savedLeader.getMember().getMemberId());
+
+	    assertEquals(member, savedLeader.getStudy().getCreator());
 			
 	}
 	
@@ -98,6 +119,8 @@ class StudyServiceImplTest {
 	    verify(memberRepository).findById(memberId);
 	    verify(studyRepository, never())
 	            .save(any(Study.class));
+	    verify(studyMemberRepository, never())
+	    		.save(any(StudyMember.class));
 	}
 
 	@Test
