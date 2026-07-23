@@ -23,52 +23,55 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(
-    name = "study_member",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "uk_study_member",
-            columnNames = {"study_id", "member_id"}
-        )
-    }
-)
+@Table(name = "study_member", uniqueConstraints = {
+		@UniqueConstraint(name = "uk_study_member", columnNames = { "study_id", "member_id" }) })
 @Getter
 @NoArgsConstructor
 public class StudyMember {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "study_member_id")
-    private Integer studyMemberId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "study_member_id")
+	private Integer studyMemberId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "study_id", nullable = false)
-    private Study study;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "study_id", nullable = false)
+	private Study study;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id", nullable = false)
+	private Member member;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "study_role", nullable = false, length = 30)
-    private StudyRole studyRole;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "study_role", nullable = false, length = 30)
+	private StudyRole studyRole;
 
-    @CreationTimestamp
-    @Column(name = "joined_at", nullable = false, updatable = false)
-    private LocalDateTime joinedAt;
+	@CreationTimestamp
+	@Column(name = "joined_at", nullable = false, updatable = false)
+	private LocalDateTime joinedAt;
 
-    private StudyMember(Study study, Member member, StudyRole studyRole) {
-        this.study = study;
-        this.member = member;
-        this.studyRole = studyRole;
-    }
+	private StudyMember(Study study, Member member, StudyRole studyRole) {
+		this.study = study;
+		this.member = member;
+		this.studyRole = studyRole;
+	}
 
-    public static StudyMember createLeader(Study study, Member member) {
-        return new StudyMember(study, member, StudyRole.LEADER);
-    }
+	public static StudyMember createLeader(Study study, Member member) {
+		return new StudyMember(study, member, StudyRole.LEADER);
+	}
 
-    public static StudyMember createMember(Study study, Member member) {
-        return new StudyMember(study, member, StudyRole.MEMBER);
-    }
+	public static StudyMember createMember(Study study, Member member) {
+		return new StudyMember(study, member, StudyRole.MEMBER);
+	}
+
+	// 현재 스터디원을 새로운 리더로 변경
+	public void changeToLeader() {
+		this.studyRole = StudyRole.LEADER;
+	}
+
+	// 현재 리더를 일반 멤버로 변경
+	public void changeToMember() {
+		this.studyRole = StudyRole.MEMBER;
+	}
 
 }
