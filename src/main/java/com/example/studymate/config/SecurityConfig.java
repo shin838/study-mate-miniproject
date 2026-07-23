@@ -49,7 +49,8 @@ public class SecurityConfig {
                                 "/pages/register", 
                                 "/pages/login", 
                                 "/members/register", 
-                                "/members/login"
+                                "/members/login",
+                                "/members/refresh"
                         ).permitAll()
                         // 관리자 전용 경로는 ADMIN 권한이 있어야만 접근 가능
                         .requestMatchers("/admin/**").hasRole("ADMIN")

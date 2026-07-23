@@ -87,6 +87,25 @@ public class MemberServiceImpl implements MemberService {
 
         return responseDto;
     }
+
+    // 일반 회원용: 자진 탈퇴
+    @Override
+    @Transactional
+    public MemberResponseDto withdraw(Integer memberId) {
+        MemberResponseDto responseDto = new MemberResponseDto();
+
+        try {
+            // 본인 계정 삭제
+            memberRepository.deleteById(memberId);
+            log.info("Member Withdraw Success: id={}", memberId);
+            responseDto.setResult("success");
+        } catch (Exception e) {
+            log.error("Member Withdraw Failed: id={}", memberId, e);
+            responseDto.setResult("fail");
+        }
+
+        return responseDto;
+    }
 }
 
 
