@@ -14,4 +14,7 @@ public interface MemberService {
     
     // 관리자용: 회원 삭제
     MemberResponseDto deleteMember(Integer memberId);
+    
+    // 일반 회원용: 자진 탈퇴
+    MemberResponseDto withdraw(Integer memberId);
 }

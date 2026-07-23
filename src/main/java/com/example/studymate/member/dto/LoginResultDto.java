@@ -7,5 +7,9 @@ import lombok.Setter;
 @Setter
 public class LoginResultDto {
     private String result;
-    private String token;
+      private String token; // Access Token
+      
+    private String refreshToken; // Refresh Token
 }
+
+
