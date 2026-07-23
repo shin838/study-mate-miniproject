@@ -32,3 +32,5 @@ public class RefreshToken {
       @Column(name = "expiry_date", nullable = false)
     private LocalDateTime expiryDate;
 }
+
+

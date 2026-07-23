@@ -113,3 +113,4 @@ public class JwtUtil {
 				userDetails.getAuthorities());
 	}
 }
+

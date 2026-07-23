@@ -8,3 +8,4 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Inte
     
     
 }
+
