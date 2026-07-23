@@ -6,8 +6,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +19,7 @@ import com.example.studymate.member.dto.MemberRequestDto;
 import com.example.studymate.member.dto.MemberResponseDto;
 import com.example.studymate.member.service.MemberService;
 import com.example.studymate.security.jwt.JwtUtil;
+import com.example.studymate.security.CustomUserDetails;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +66,18 @@ public class MemberController {
         }
         
         return loginResultDto;
+    }
+    
+    // 일반 회원의 자진 탈퇴
+    @DeleteMapping("/withdraw")
+    public MemberResponseDto withdraw(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            MemberResponseDto response = new MemberResponseDto();
+            response.setResult("fail - unauthorized");
+            return response;
+        }
+        log.info("Member withdrawal requested by user: id={}", userDetails.getId());
+        return memberService.withdraw(userDetails.getId());
     }
 }
 
