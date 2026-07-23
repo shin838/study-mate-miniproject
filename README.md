@@ -98,4 +98,4 @@ git clone -b develop --single-branch https://github.com/shin838/study-mate-minip
 
 2. DB 설정
 MySQL에 접속해서 데이터베이스를 만들고, application.properties 파일에 아이디와 비밀번호를 맞게 수정해줍니다.
-```
+
