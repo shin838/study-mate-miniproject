@@ -21,7 +21,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import com.example.studymate.member.entity.Member;
 import com.example.studymate.member.repository.MemberRepository;
@@ -124,127 +123,110 @@ class StudyServiceImplTest {
 	}
 
 	@Test
-    void test3() { // 검색어가 없는 상황
-        Member creator = Member.builder()
-                .memberId(1)
-                .nickname("테스트")
-                .build();
+    void test3() { // 검색어가 없는 상황 (모집중 우선 목록 조회)
+		Member creator = Member.builder()
+	            .memberId(1)
+	            .nickname("테스트")
+	            .build();
 
-        Study study = Study.create(
-                "Git 스터디",
-                "Git 공부하실 분",
-                3,
-                creator
-        );
+	    Study study = Study.create(
+	            "Git 스터디",
+	            "Git 공부하실 분",
+	            3,
+	            creator
+	    );
 
-        Pageable pageable = PageRequest.of(
-                0,
-                10,
-                Sort.by(
-                        Sort.Direction.DESC,
-                        "createdAt"
-                )
-        );
+	    Pageable pageable = PageRequest.of(0, 10);
 
-        Page<Study> studyPage = new PageImpl<>(
-                List.of(study),
-                pageable,
-                1
-        );
+	    Page<Study> studyPage = new PageImpl<>(
+	            List.of(study),
+	            pageable,
+	            1
+	    );
 
-        when(studyRepository.findAll(pageable))
-                .thenReturn(studyPage);
+	    when(
+	            studyRepository.findAllRecruitingFirst(
+	                    StudyStatus.RECRUITING,
+	                    pageable
+	            )
+	    ).thenReturn(studyPage);
 
-        Page<StudyListResponseDto> response =
-                studyService.getStudies(
-                        null,
-                        pageable
-                );
+	    Page<StudyListResponseDto> response =
+	            studyService.getStudies(null, pageable);
 
-        assertEquals(1, response.getTotalElements());
-        assertEquals(1, response.getContent().size());
-        assertEquals(
-                "Git 스터디",
-                response.getContent().get(0).getTitle()
-        );
-        assertEquals(
-                "테스트",
-                response.getContent().get(0)
-                        .getCreatorNickname()
-        );
+	    assertEquals(1, response.getTotalElements());
+	    assertEquals(1, response.getContent().size());
+	    assertEquals(
+	            "Git 스터디",
+	            response.getContent().get(0).getTitle()
+	    );
+	    assertEquals(
+	            "테스트",
+	            response.getContent().get(0).getCreatorNickname()
+	    );
 
-        verify(studyRepository).findAll(pageable);
+	    verify(studyRepository).findAllRecruitingFirst(
+	            StudyStatus.RECRUITING,
+	            pageable
+	    );
 
-        verify(
-                studyRepository,
-                never()
-        ).findByTitleContainingIgnoreCase(
-                any(),
-                any()
-        );
+	    verify(studyRepository, never()).searchRecruitingFirst(
+	            any(),
+	            any(),
+	            any()
+	    );
     }
 	
 	@Test
     void test4() { // 검색어가 있는 상황
-        String keyword = "Git";
+		String keyword = "Git";
 
-        Member creator = Member.builder()
-                .memberId(1)
-                .nickname("테스트")
-                .build();
+	    Member creator = Member.builder()
+	            .memberId(1)
+	            .nickname("테스트")
+	            .build();
 
-        Study study = Study.create(
-                "Git 스터디",
-                "Git 공부하실 분",
-                3,
-                creator
-        );
+	    Study study = Study.create(
+	            "Git 스터디",
+	            "Git 공부하실 분",
+	            3,
+	            creator
+	    );
 
-        Pageable pageable = PageRequest.of(
-                0,
-                10,
-                Sort.by(
-                        Sort.Direction.DESC,
-                        "createdAt"
-                )
-        );
+	    Pageable pageable = PageRequest.of(0, 10);
 
-        Page<Study> studyPage = new PageImpl<>(
-                List.of(study),
-                pageable,
-                1
-        );
+	    Page<Study> studyPage = new PageImpl<>(
+	            List.of(study),
+	            pageable,
+	            1
+	    );
 
-        when(
-                studyRepository
-                        .findByTitleContainingIgnoreCase(
-                                keyword,
-                                pageable
-                        )
-        ).thenReturn(studyPage);
+	    when(
+	            studyRepository.searchRecruitingFirst(
+	                    keyword,
+	                    StudyStatus.RECRUITING,
+	                    pageable
+	            )
+	    ).thenReturn(studyPage);
 
-        Page<StudyListResponseDto> response =
-                studyService.getStudies(
-                        keyword,
-                        pageable
-                );
+	    Page<StudyListResponseDto> response =
+	            studyService.getStudies(keyword, pageable);
 
-        assertEquals(1, response.getTotalElements());
-        assertEquals(
-                "Git 스터디",
-                response.getContent().get(0).getTitle()
-        );
+	    assertEquals(1, response.getTotalElements());
+	    assertEquals(
+	            "Git 스터디",
+	            response.getContent().get(0).getTitle()
+	    );
 
-        verify(
-                studyRepository
-        ).findByTitleContainingIgnoreCase(
-                keyword,
-                pageable
-        );
+	    verify(studyRepository).searchRecruitingFirst(
+	            keyword,
+	            StudyStatus.RECRUITING,
+	            pageable
+	    );
 
-        verify(
-                studyRepository,
-                never()
-        ).findAll(pageable);
-    }
+	    verify(studyRepository, never()).findAllRecruitingFirst(
+	            any(),
+	            any()
+	    );
+	}
 }

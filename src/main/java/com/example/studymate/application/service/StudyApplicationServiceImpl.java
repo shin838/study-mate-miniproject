@@ -44,34 +44,33 @@ public class StudyApplicationServiceImpl implements StudyApplicationService {
 		if (studyMemberRepository.existsByStudy_StudyIdAndMember_MemberId(studyId, memberId)) {
 			throw new IllegalStateException("이미 참여 중인 스터디입니다.");
 		}
-		
+
 		int memberCount = studyMemberRepository.countByStudy_StudyIdAndStudyRole(studyId, StudyRole.MEMBER);
 
 		if (memberCount >= study.getMaxMember()) {
 			throw new IllegalStateException("모집 인원이 마감되었습니다.");
 		}
-		
+
 		// 과거 신청 내역을 조회한다.
 		StudyApplication studyApplication = studyApplicationRepository.findByMemberAndStudy(member, study).orElse(null);
 
 		if (studyApplication != null) {
-			 //APPLIED 신청이 남아 있는데 StudyMember가 없는 경우다. 데이터가 불일치한 상태이므로 중복 신청으로 차단한다.
+			// APPLIED 신청이 남아 있는데 StudyMember가 없는 경우다. 데이터가 불일치한 상태이므로 중복 신청으로 차단한다.
 			if (ApplicationStatus.APPLIED.name().equals(studyApplication.getApplicationStatus())) {
 				throw new IllegalStateException("이미 신청한 스터디입니다.");
 			}
-			
 
 			// 기존 신청이 CANCELED라면 새로운 행을 만들지 않고 기존 행의 상태를 APPLIED로 되돌린다.
 			studyApplication.setApplicationStatus(ApplicationStatus.APPLIED.name());
 		} else {
-			
+
 			// 한 번도 신청한 적이 없다면 새 신청 행을 만든다.
 			studyApplication = new StudyApplication();
 			studyApplication.setMember(member);
 			studyApplication.setStudy(study);
 			studyApplication.setApplicationStatus(ApplicationStatus.APPLIED.name());
 		}
-				
+
 		StudyApplication savedApplication = studyApplicationRepository.save(studyApplication);
 
 		// 실제 참여 관계를 MEMBER 역할로 생성
@@ -109,8 +108,15 @@ public class StudyApplicationServiceImpl implements StudyApplicationService {
 
 		studyApplication.setApplicationStatus(ApplicationStatus.CANCELED.name());
 
+		int memberCount = studyMemberRepository.countByStudy_StudyIdAndStudyRole(studyId, StudyRole.MEMBER);
+
 		// 실제 참여 관계 삭제
 		studyMemberRepository.deleteByStudy_StudyIdAndMember_MemberId(studyId, memberId);
+
+		// 정원이 가득 차서 자동 마감됐던 스터디라면 다시 모집한다.
+		if (study.getStatus() == StudyStatus.CLOSED && memberCount >= study.getMaxMember()) {
+			study.reopenRecruitment();
+		}
 
 		return studyApplicationRepository.save(studyApplication);
 	}

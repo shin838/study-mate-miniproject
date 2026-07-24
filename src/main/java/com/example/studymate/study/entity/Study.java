@@ -85,4 +85,8 @@ public class Study {
 	public void closeRecruitment() {
 		this.status = StudyStatus.CLOSED;
 	}
+	
+	public void reopenRecruitment() {
+	    this.status = StudyStatus.RECRUITING;
+	}
 }
