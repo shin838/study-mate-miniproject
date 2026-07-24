@@ -151,4 +151,4 @@ git clone -b develop --single-branch https://github.com/shin838/study-mate-minip
 
 2. DB 설정
 
-MySQL에 접속해서 데이터베이스를 만들고, application-local.properties.example 파일을 복사해서 application-local.properties 로컬 설정 파일을 만든 뒤 아이디와 비밀번호를 맞게 수정해줍니다.
+resource 폴더의 sql 파일을 이용하여 MySQL에 접속해서 데이터베이스를 만들고, application-local.properties.example 파일을 복사해서 application-local.properties 로컬 설정 파일을 만든 뒤 아이디와 비밀번호를 맞게 수정해줍니다.
