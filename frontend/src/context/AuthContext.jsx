@@ -42,6 +42,7 @@ export function AuthProvider({ children }) {
     accessToken,
     user,
     isAuthenticated: Boolean(accessToken && user),
+    isAdmin: Boolean(user?.roles?.includes("ROLE_ADMIN")),
     login,
     logout,
   };

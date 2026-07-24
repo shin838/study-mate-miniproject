@@ -9,6 +9,7 @@ import {
   Menu,
   PanelLeftClose,
   Plus,
+  ShieldCheck,
   Sparkles,
   UserRound,
   X,
@@ -18,7 +19,7 @@ import { useStudies } from "../../context/StudyContext";
 import { roleLabel } from "../../utils/format";
 
 export default function Sidebar() {
-  const { user, logout } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   const {
     participatingStudies,
     sidebarLoading,
@@ -77,6 +78,13 @@ export default function Sidebar() {
           <Plus size={19} />
           <span>새 스터디 만들기</span>
         </NavLink>
+        {isAdmin && (
+          <NavLink to="/admin" className="nav-item nav-item-admin">
+            <ShieldCheck size={19} />
+            <span>관리자 콘솔</span>
+            <ChevronRight className="nav-chevron" size={16} />
+          </NavLink>
+        )}
       </nav>
 
       <div className="sidebar-divider" />
@@ -139,7 +147,10 @@ export default function Sidebar() {
         </span>
         <span className="profile-copy">
           <strong>{user?.email?.split("@")[0] || "Study Mate"}</strong>
-          <small>{user?.email || "로그인 사용자"}</small>
+          <small>
+            {isAdmin ? "ADMIN · " : ""}
+            {user?.email || "로그인 사용자"}
+          </small>
         </span>
         <button
           type="button"

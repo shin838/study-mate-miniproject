@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./components/common/ProtectedRoute";
+import AdminRoute from "./components/common/AdminRoute";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import StudyBoardPage from "./pages/StudyBoardPage";
@@ -9,6 +10,7 @@ import StudyFormPage from "./pages/StudyFormPage";
 import MyStudyDetailPage from "./pages/MyStudyDetailPage";
 import MyCreatedStudiesPage from "./pages/MyCreatedStudiesPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 
 export default function App() {
   return (
@@ -27,6 +29,9 @@ export default function App() {
             path="/my/applications/:studyId"
             element={<MyStudyDetailPage />}
           />
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminDashboardPage />} />
+          </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>
