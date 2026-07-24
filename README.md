@@ -129,6 +129,8 @@ src
 | **스터디 참여 신청** | `POST` | `/studies/{studyId}/applications` |
 | **스터디 참여 취소** | `DELETE` | `/studies/{studyId}/applications` |
 | **내가 참여 중인 스터디 목록** | `GET` | `/my/applications` |
+| **내가 참여 중인 스터디 상세** | `GET` | `/my/applications/{studyId}` |
+| **스터디 리더 권한 양도** | `PATCH` | `/studies/{studyId}/leader` |
 | **내가 만든 스터디 목록** | `GET` | `/my/studies` |
 | **전체 회원 조회 (Admin)** | `GET` | `/admin/members` |
 | **회원 상세조회 (Admin)** | `GET` | `/admin/members/{memberId}` |
