@@ -44,6 +44,9 @@
 
 ### 스터디 가입 신청 (Application)
 - 사용자가 스터디에 가입 신청을 할 수 있습니다.
+
+### 스터디 내 라운지 (StudyPost)
+- 스터디 내에서 대화할 수 있습니다.
   
 ### 마이페이지 기능 (My Page)
 - 내가 만든 스터디나 참여 중인 스터디 목록을 확인할 수 있습니다.
@@ -91,6 +94,7 @@
 | `study` | 개설된 스터디 정보 (제목, 내용, 모집 인원 등) |
 | `study_application` | 사용자의 스터디 가입 신청 내역 |
 | `study_member` | 가입이 최종 승인된 스터디 멤버 목록 |
+| `study_post` | 스터디 내 게시글 정보 |
 
 ## 5. 프로젝트 폴더 구조
 ```text
@@ -99,12 +103,14 @@ src
  │    └── java
  │         └── com.example.studymate
  │              ├── admin       // 관리자(Admin) 전용 기능 관리
- │              ├── application // 스터디 가입 신청(신청, 승인, 거절) 관리
+ │              ├── application // 스터디 가입 신청 관리
  │              ├── config      // Spring Security 및 전역(Global) 설정 파일
  │              ├── member      // 회원 가입, 로그인, 리프레시 토큰 등 회원 도메인
  │              ├── mypage      // 마이페이지 (내 스터디 현황 등) 관리
  │              ├── security    // JWT 토큰 처리, 인증 필터 등 시큐리티 코어 로직
- │              └── study       // 스터디 모집글 작성, 조회, 스터디 멤버 등 관리
+ │              ├── study       // 스터디 모집글 작성, 조회, 스터디 멤버 등 관리
+ │              ├── studymember // 스터디 참여 회원 및 스터디 내 역할(리더/멤버) 관리
+ │              └── studypost   // 참여 스터디 라운지 게시글 작성, 조회, 수정, 삭제 관리
 ```
 
 ## 6. API 명세서
@@ -130,6 +136,10 @@ src
 | **스터디 참여 취소** | `DELETE` | `/studies/{studyId}/applications` |
 | **내가 참여 중인 스터디 목록** | `GET` | `/my/applications` |
 | **내가 참여 중인 스터디 상세** | `GET` | `/my/applications/{studyId}` |
+| **스터디 내 게시글 작성** | `POST` | `/studies/{studyId}/posts` |
+| **스터디 내 게시글 목록 조회** | `GET` | `/studies/{studyId}/posts` |
+| **스터디 내 게시글 수정** | `PATCH` | `/studies/{studyId}/posts/{postId}` |
+| **스터디 내 게시글 삭제** | `DELETE` | `/studies/{studyId}/posts/{postId}` |
 | **스터디 리더 권한 양도** | `PATCH` | `/studies/{studyId}/leader` |
 | **내가 만든 스터디 목록** | `GET` | `/my/studies` |
 | **전체 회원 조회 (Admin)** | `GET` | `/admin/members` |
