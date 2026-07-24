@@ -1,0 +1,33 @@
+import { Navigate, Route, Routes } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import LoginPage from "./pages/LoginPage";
+import StudyBoardPage from "./pages/StudyBoardPage";
+import StudyDetailPage from "./pages/StudyDetailPage";
+import StudyFormPage from "./pages/StudyFormPage";
+import MyStudyDetailPage from "./pages/MyStudyDetailPage";
+import MyCreatedStudiesPage from "./pages/MyCreatedStudiesPage";
+import NotFoundPage from "./pages/NotFoundPage";
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<MainLayout />}>
+          <Route index element={<Navigate to="/studies" replace />} />
+          <Route path="/studies" element={<StudyBoardPage />} />
+          <Route path="/studies/new" element={<StudyFormPage />} />
+          <Route path="/studies/:studyId" element={<StudyDetailPage />} />
+          <Route path="/studies/:studyId/edit" element={<StudyFormPage />} />
+          <Route path="/my/studies" element={<MyCreatedStudiesPage />} />
+          <Route
+            path="/my/applications/:studyId"
+            element={<MyStudyDetailPage />}
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Route>
+    </Routes>
+  );
+}
