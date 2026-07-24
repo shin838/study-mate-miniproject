@@ -179,6 +179,11 @@ export default function StudyDetailPage() {
                 참여하기
               </button>
             )}
+            {!participation && !isCreator && study.status === "CLOSED" && (
+              <button className="button secondary" type="button" disabled>
+                모집 마감
+              </button>
+            )}
             {participation?.studyRole === "MEMBER" && (
               <button
                 className="button danger-ghost"

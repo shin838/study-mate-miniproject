@@ -81,4 +81,8 @@ public class Study {
 			throw new IllegalArgumentException("최대 인원은 1명 이상이어야 합니다.");
 		}
 	}
+
+	public void closeRecruitment() {
+		this.status = StudyStatus.CLOSED;
+	}
 }

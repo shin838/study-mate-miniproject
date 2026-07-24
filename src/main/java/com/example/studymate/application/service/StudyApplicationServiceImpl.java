@@ -79,6 +79,11 @@ public class StudyApplicationServiceImpl implements StudyApplicationService {
 
 		studyMemberRepository.save(studyMember);
 
+		// maxMember는 리더를 제외한 일반 MEMBER 정원
+		if (memberCount + 1 >= study.getMaxMember()) {
+			study.closeRecruitment();
+		}
+
 		return savedApplication;
 	}
 
