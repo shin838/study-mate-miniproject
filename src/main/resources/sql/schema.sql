@@ -29,6 +29,7 @@ DROP TABLE IF EXISTS `refresh_token`;
 DROP TABLE IF EXISTS `member_role`;
 DROP TABLE IF EXISTS `member`;
 DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `study_post`;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -193,6 +194,34 @@ CREATE TABLE `study_application` (
         FOREIGN KEY (`study_id`)
         REFERENCES `study` (`study_id`)
         ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+  
+  -- =========================================================
+-- 10. 스터디 게시글
+-- 참여 중인 스터디원만 작성 및 조회 가능
+-- =========================================================
+
+CREATE TABLE `study_post` (
+    `post_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `study_id` INT NOT NULL,
+    `member_id` INT NOT NULL,
+    `content` TEXT NOT NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT `fk_study_post_study`
+        FOREIGN KEY (`study_id`)
+        REFERENCES `study` (`study_id`)
+        ON DELETE CASCADE,
+
+    CONSTRAINT `fk_study_post_member`
+        FOREIGN KEY (`member_id`)
+        REFERENCES `member` (`member_id`)
+        ON DELETE CASCADE,
+
+    INDEX `idx_study_post_study_created`
+        (`study_id`, `created_at`)
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci;
