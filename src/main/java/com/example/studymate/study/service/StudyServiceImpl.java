@@ -17,6 +17,8 @@ import com.example.studymate.study.dto.StudyResponseDto;
 import com.example.studymate.study.dto.StudyUpdateRequestDto;
 import com.example.studymate.study.entity.Study;
 import com.example.studymate.study.repository.StudyRepository;
+import com.example.studymate.studymember.entity.StudyMember;
+import com.example.studymate.studymember.repository.StudyMemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,8 @@ public class StudyServiceImpl implements StudyService {
 
 	private final StudyRepository studyRepository;
 	private final MemberRepository memberRepository;
+	
+	private final StudyMemberRepository studyMemberRepository;
 
 	@Override
 	@Transactional
@@ -38,6 +42,10 @@ public class StudyServiceImpl implements StudyService {
 		Study study = Study.create(request.getTitle(), request.getContent(), request.getMaxMember(), creator);
 
 		Study savedStudy = studyRepository.save(study);
+		
+		StudyMember leader = StudyMember.createLeader(savedStudy, creator);
+		
+		studyMemberRepository.save(leader);
 
 		return StudyResponseDto.from(savedStudy);
 	}

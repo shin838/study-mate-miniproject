@@ -88,7 +88,7 @@ class StudyApplicationModuleTest {
         mockMvc.perform(get("/my/applications")
                         .with(authentication(login)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].applicationStatus").value("APPLIED"))
+                .andExpect(jsonPath("$[0].studyRole").value("MEMBER"))
                 .andExpect(jsonPath("$[0].studyId").value(study.getStudyId()));
 
         mockMvc.perform(delete("/studies/{studyId}/applications", study.getStudyId())

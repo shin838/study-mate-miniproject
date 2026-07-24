@@ -47,16 +47,17 @@ public class StudyApplicationController {
         return toResponseDto(studyApplication);
     }
 
-    @GetMapping("/my/applications")
-    public List<StudyApplicationResponseDto> listMyApplications(
-            @AuthenticationPrincipal CustomUserDetails userDetails) {
-        Integer memberId = userDetails.getId();
-
-        return studyApplicationService.listMyApplications(memberId)
-                .stream()
-                .map(this::toResponseDto)
-                .toList();
-    }
+    // MyPageController 에서 재정의함
+//    @GetMapping("/my/applications")
+//    public List<StudyApplicationResponseDto> listMyApplications(
+//            @AuthenticationPrincipal CustomUserDetails userDetails) {
+//        Integer memberId = userDetails.getId();
+//
+//        return studyApplicationService.listMyApplications(memberId)
+//                .stream()
+//                .map(this::toResponseDto)
+//                .toList();
+//    }
 
     private StudyApplicationResponseDto toResponseDto(StudyApplication studyApplication) {
         return StudyApplicationResponseDto.builder()
