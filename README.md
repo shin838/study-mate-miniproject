@@ -13,10 +13,11 @@
 - Gradle
 
 ### Frontend
-- React
-- Vite
 - JavaScript
-- React Router
+- Node.js 20 이상
+- React 19
+- Vite 6
+- React Router 7
 - Axios
 
 ### Database
@@ -144,9 +145,10 @@ src
 
 ## 7. 테스트 실행 방법
 
-1. 프로젝트 디벨로프 브랜치 클론
+1. 프로젝트 develop 브랜치 클론
 
 git clone -b develop --single-branch https://github.com/shin838/study-mate-miniproject.git
 
 2. DB 설정
+
 MySQL에 접속해서 데이터베이스를 만들고, application-local.properties.example 파일을 복사해서 application-local.properties 로컬 설정 파일을 만든 뒤 아이디와 비밀번호를 맞게 수정해줍니다.
