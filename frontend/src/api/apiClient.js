@@ -90,6 +90,9 @@ export function getErrorMessage(error, fallback = "요청을 처리하지 못했
   }
 
   if (!error.response) {
+    if (error instanceof Error && error.message) {
+      return error.message;
+    }
     return "서버에 연결할 수 없습니다. 백엔드가 실행 중인지 확인해주세요.";
   }
 

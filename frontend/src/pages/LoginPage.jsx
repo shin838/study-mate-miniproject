@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, BookOpenCheck, LockKeyhole, Mail, Sparkles } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getErrorMessage } from "../api/apiClient";
 
@@ -74,6 +74,9 @@ export default function LoginPage() {
           <h2>다시 만나서 반가워요</h2>
           <p className="form-intro">Study Mate 계정으로 계속하세요.</p>
 
+          {location.state?.message && (
+            <div className="form-success">{location.state.message}</div>
+          )}
           {error && <div className="form-error">{error}</div>}
 
           <label className="field">
@@ -110,9 +113,12 @@ export default function LoginPage() {
             {loading ? "로그인 중..." : "로그인"}
             {!loading && <ArrowRight size={18} />}
           </button>
-          <p className="login-help">
-            아직 계정이 없다면 팀에서 제공한 회원가입 API를 이용해주세요.
-          </p>
+          <div className="auth-switch">
+            <span>아직 계정이 없나요?</span>
+            <Link className="auth-switch-link" to="/register">
+              회원가입
+            </Link>
+          </div>
         </form>
       </section>
     </main>

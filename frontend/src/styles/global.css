@@ -1472,12 +1472,63 @@ textarea:focus-visible {
   margin-top: 7px;
 }
 
-.login-help {
+.auth-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   margin-top: 18px;
   color: #686f7e;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.6;
   text-align: center;
+}
+
+.auth-switch-link,
+.auth-back-link {
+  color: #aaa0ff;
+  font-weight: 700;
+  transition: 160ms ease;
+}
+
+.auth-switch-link:hover,
+.auth-back-link:hover {
+  color: #d5d0ff;
+}
+
+.auth-switch-link {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(124, 108, 242, 0.1);
+}
+
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 22px;
+  font-size: 11px;
+}
+
+.register-form {
+  width: min(530px, 100%);
+}
+
+.register-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.form-success {
+  margin-bottom: 17px;
+  padding: 12px 14px;
+  border: 1px solid rgba(78, 203, 142, 0.24);
+  border-radius: 10px;
+  color: #93dfb9;
+  background: rgba(78, 203, 142, 0.08);
+  font-size: 11px;
+  line-height: 1.55;
 }
 
 .error-code {
@@ -1590,6 +1641,11 @@ textarea:focus-visible {
 }
 
 @media (max-width: 620px) {
+  .register-field-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
   .page-header,
   .board-toolbar {
     align-items: stretch;
