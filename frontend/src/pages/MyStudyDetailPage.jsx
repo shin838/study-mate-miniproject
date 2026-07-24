@@ -15,6 +15,7 @@ import { useStudies } from "../context/StudyContext";
 import { formatDate, roleLabel } from "../utils/format";
 import StatusBadge from "../components/study/StatusBadge";
 import StudyMemberList from "../components/study/StudyMemberList";
+import StudyPostPanel from "../components/study/StudyPostPanel";
 import LeaderTransferModal from "../components/study/LeaderTransferModal";
 import Loading from "../components/common/Loading";
 import ErrorMessage from "../components/common/ErrorMessage";
@@ -153,16 +154,20 @@ export default function MyStudyDetailPage() {
         </div>
       </section>
 
-      <section className="card member-section">
-        <div className="section-heading horizontal">
-          <div>
-            <span className="eyebrow">STUDY MEMBERS</span>
-            <h2>함께하는 스터디원</h2>
+      <div className="study-workspace-grid">
+        <StudyPostPanel studyId={studyId} />
+
+        <section className="card member-section workspace-member-section">
+          <div className="section-heading horizontal">
+            <div>
+              <span className="eyebrow">STUDY MEMBERS</span>
+              <h2>함께하는 스터디원</h2>
+            </div>
+            <span className="member-total">{study.members.length}명</span>
           </div>
-          <span className="member-total">{study.members.length}명</span>
-        </div>
-        <StudyMemberList members={study.members} />
-      </section>
+          <StudyMemberList members={study.members} />
+        </section>
+      </div>
 
       <LeaderTransferModal
         open={transferOpen}
