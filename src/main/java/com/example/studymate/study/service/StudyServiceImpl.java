@@ -16,6 +16,7 @@ import com.example.studymate.study.dto.StudyRequestDto;
 import com.example.studymate.study.dto.StudyResponseDto;
 import com.example.studymate.study.dto.StudyUpdateRequestDto;
 import com.example.studymate.study.entity.Study;
+import com.example.studymate.study.entity.StudyStatus;
 import com.example.studymate.study.repository.StudyRepository;
 import com.example.studymate.studymember.entity.StudyMember;
 import com.example.studymate.studymember.repository.StudyMemberRepository;
@@ -57,10 +58,10 @@ public class StudyServiceImpl implements StudyService {
 		Page<Study> studies;
 		
 		if (StringUtils.hasText(keyword)) { // 키워드가 null이나 공백인지 확인
-			studies = studyRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+			studies = studyRepository.searchRecruitingFirst(keyword, StudyStatus.RECRUITING, pageable);
 		}
 		else { // 검색어가 없으면 전체 목록을 조회
-			studies = studyRepository.findAll(pageable);
+			studies = studyRepository.findAllRecruitingFirst(StudyStatus.RECRUITING, pageable);
 		}
 		
 		return studies.map(StudyListResponseDto::from);

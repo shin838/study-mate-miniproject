@@ -48,7 +48,7 @@ public class StudyController {
 	public ResponseEntity<Page<StudyListResponseDto>> getStudies(
 			@RequestParam(name="keyword", required=false) String keyword,
 			// 최신 글부터 조회
-			@PageableDefault(size=10, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable
+			@PageableDefault(size=10) Pageable pageable
 	) {
 		Page<StudyListResponseDto> studies = studyService.getStudies(keyword, pageable);
 		
