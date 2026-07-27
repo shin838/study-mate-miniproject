@@ -1,9 +1,11 @@
 
-# Study Mate (스터디 메이트) 미니 프로젝트
+# ✨ Study Mate (스터디 메이트)
+
+![Study Mate 프로젝트 소개](docs/images/project-overview.png)
 
 스터디원들을 모집하고, 가입 신청을 받고, 멤버들을 관리할 수 있는 스터디 매칭 백엔드 서비스입니다.
 
-## 1. 개발 환경
+## 🛠️ 개발 환경
 ### Backend
 - Java 21
 - Spring Boot
@@ -29,7 +31,7 @@
 - Postman
 - Git / GitHub
 
-## 2. 주요 기능
+## 🚀 주요 기능
 
 ### 회원 관리 및 로그인 (Member/Security)
 - JWT를 사용해서 로그인 기능을 만들었습니다.
@@ -51,7 +53,7 @@
 ### 마이페이지 기능 (My Page)
 - 내가 만든 스터디나 참여 중인 스터디 목록을 확인할 수 있습니다.
 
-## 3. 구현 화면
+## 🖥️ 구현 화면
 
 ### 로그인 전 메인 화면
 
@@ -83,7 +85,7 @@
 
 ![관리자 페이지](docs/images/admin-console.png)
 
-## 4. 데이터베이스(DB) 테이블 구조
+## 🗃️ 데이터베이스(DB) 테이블 구조
 
 | 테이블명 | 설명 |
 | :--- | :--- |
@@ -96,7 +98,7 @@
 | `study_member` | 가입이 최종 승인된 스터디 멤버 목록 |
 | `study_post` | 스터디 내 게시글 정보 |
 
-## 5. 프로젝트 폴더 구조
+## 📁 프로젝트 폴더 구조
 ```text
 src
  ├── main
@@ -113,10 +115,10 @@ src
  │              └── studypost   // 참여 스터디 라운지 게시글 작성, 조회, 수정, 삭제 관리
 ```
 
-## 6. API 명세서
+## 📡 API 명세서
 
 <details>
-<summary><b> 전체 API 목록 펼쳐보기</b></summary>
+<summary><b>📋 전체 API 목록 펼쳐보기</b></summary>
 <div markdown="1">
 
 | 기능 | Method | Endpoint |
@@ -152,7 +154,7 @@ src
 </div>
 </details>
 
-## 7. 테스트 실행 방법
+## 🧪 테스트 실행 방법
 
 1. 프로젝트 develop 브랜치 클론
 
