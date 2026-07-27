@@ -4,11 +4,30 @@
 스터디원들을 모집하고, 가입 신청을 받고, 멤버들을 관리할 수 있는 스터디 매칭 백엔드 서비스입니다.
 
 ## 1. 개발 환경
-- 언어: Java
-- 프레임워크: Spring Boot, Spring Data JPA
-- 보안: Spring Security, JWT
-- DB: MySQL
-- 빌드: Gradle
+### Backend
+- Java 21
+- Spring Boot
+- Spring Data JPA
+- Spring Security
+- JWT
+- Gradle
+
+### Frontend (바이브코딩)
+- JavaScript
+- Node.js
+- React
+- Vite 6
+- React Router
+- Axios
+
+### Database
+- MySQL
+
+### Development Tools
+- STS (Spring Tools for Eclipse)
+- MySQL Workbench
+- Postman
+- Git / GitHub
 
 ## 2. 주요 기능
 
@@ -25,12 +44,46 @@
 
 ### 스터디 가입 신청 (Application)
 - 사용자가 스터디에 가입 신청을 할 수 있습니다.
-- 방장이 신청 목록을 보고 승인하거나 거절할 수 있습니다.
 
+### 스터디 내 라운지 (StudyPost)
+- 스터디 내에서 대화할 수 있습니다.
+  
 ### 마이페이지 기능 (My Page)
 - 내가 만든 스터디나 참여 중인 스터디 목록을 확인할 수 있습니다.
 
-## 3. 데이터베이스(DB) 테이블 구조
+## 3. 구현 화면
+
+### 로그인 전 메인 화면
+
+서비스 소개를 확인하고 로그인하거나 회원가입 화면으로 이동할 수 있습니다.
+
+![로그인 전 메인 화면](docs/images/login-before-main.png)
+
+### 일반회원 로그인 화면
+
+스터디 모집 게시판을 조회하고, 참여 중인 스터디와 내가 만든 스터디로 이동할 수 있습니다.
+
+![일반회원 로그인 화면](docs/images/member-dashboard.png)
+
+### 참여 중인 스터디 상세 화면
+
+스터디 정보와 목표, 현재 참여자 및 각 참여자의 역할을 확인할 수 있습니다.
+
+![참여 중인 스터디 상세 화면](docs/images/participating-study-detail.png)
+
+### 관리자 로그인 화면
+
+일반회원 기능과 함께 관리자 전용 콘솔 메뉴를 사용할 수 있습니다.
+
+![관리자 로그인 화면](docs/images/admin-dashboard.png)
+
+### 관리자 페이지
+
+전체 회원과 스터디 현황을 확인하고 회원 및 스터디를 관리할 수 있습니다.
+
+![관리자 페이지](docs/images/admin-console.png)
+
+## 4. 데이터베이스(DB) 테이블 구조
 
 | 테이블명 | 설명 |
 | :--- | :--- |
@@ -41,23 +94,26 @@
 | `study` | 개설된 스터디 정보 (제목, 내용, 모집 인원 등) |
 | `study_application` | 사용자의 스터디 가입 신청 내역 |
 | `study_member` | 가입이 최종 승인된 스터디 멤버 목록 |
+| `study_post` | 스터디 내 게시글 정보 |
 
-## 4. 프로젝트 폴더 구조
+## 5. 프로젝트 폴더 구조
 ```text
 src
  ├── main
  │    └── java
  │         └── com.example.studymate
  │              ├── admin       // 관리자(Admin) 전용 기능 관리
- │              ├── application // 스터디 가입 신청(신청, 승인, 거절) 관리
+ │              ├── application // 스터디 가입 신청 관리
  │              ├── config      // Spring Security 및 전역(Global) 설정 파일
  │              ├── member      // 회원 가입, 로그인, 리프레시 토큰 등 회원 도메인
  │              ├── mypage      // 마이페이지 (내 스터디 현황 등) 관리
  │              ├── security    // JWT 토큰 처리, 인증 필터 등 시큐리티 코어 로직
- │              └── study       // 스터디 모집글 작성, 조회, 스터디 멤버 등 관리
+ │              ├── study       // 스터디 모집글 작성, 조회, 스터디 멤버 등 관리
+ │              ├── studymember // 스터디 참여 회원 및 스터디 내 역할(리더/멤버) 관리
+ │              └── studypost   // 참여 스터디 라운지 게시글 작성, 조회, 수정, 삭제 관리
 ```
 
-## 5. API 명세서
+## 6. API 명세서
 
 <details>
 <summary><b> 전체 API 목록 펼쳐보기</b></summary>
@@ -79,6 +135,12 @@ src
 | **스터디 참여 신청** | `POST` | `/studies/{studyId}/applications` |
 | **스터디 참여 취소** | `DELETE` | `/studies/{studyId}/applications` |
 | **내가 참여 중인 스터디 목록** | `GET` | `/my/applications` |
+| **내가 참여 중인 스터디 상세** | `GET` | `/my/applications/{studyId}` |
+| **스터디 내 게시글 작성** | `POST` | `/studies/{studyId}/posts` |
+| **스터디 내 게시글 목록 조회** | `GET` | `/studies/{studyId}/posts` |
+| **스터디 내 게시글 수정** | `PATCH` | `/studies/{studyId}/posts/{postId}` |
+| **스터디 내 게시글 삭제** | `DELETE` | `/studies/{studyId}/posts/{postId}` |
+| **스터디 리더 권한 양도** | `PATCH` | `/studies/{studyId}/leader` |
 | **내가 만든 스터디 목록** | `GET` | `/my/studies` |
 | **전체 회원 조회 (Admin)** | `GET` | `/admin/members` |
 | **회원 상세조회 (Admin)** | `GET` | `/admin/members/{memberId}` |
@@ -90,12 +152,12 @@ src
 </div>
 </details>
 
-## 6. 테스트 실행 방법
+## 7. 테스트 실행 방법
 
-1. 프로젝트 디벨로프 브랜치 클론
+1. 프로젝트 develop 브랜치 클론
 
 git clone -b develop --single-branch https://github.com/shin838/study-mate-miniproject.git
 
 2. DB 설정
-MySQL에 접속해서 데이터베이스를 만들고, application-local.properties.example 파일을 복사해서 application-local.properties 로컬 설정 파일을 만든 뒤 아이디와 비밀번호를 맞게 수정해줍니다.
 
+resource 폴더의 sql 파일을 이용하여 MySQL에 접속해서 데이터베이스를 만들고, application-local.properties.example 파일을 복사해서 application-local.properties 로컬 설정 파일을 만든 뒤 아이디와 비밀번호를 맞게 수정해줍니다.

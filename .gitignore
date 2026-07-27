@@ -36,3 +36,11 @@ out/
 ### VS Code ###
 .vscode/
 .DS_Store
+
+# Local Spring configuration
+src/main/resources/application-local.properties
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local

@@ -33,8 +33,45 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.13.0'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.13.0'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.13.0'
+}
+
+def windowsTestWorkDir = new File(System.getProperty('java.io.tmpdir'), 'study-mate-miniproject-test')
+def copiedMainClassesDir = new File(windowsTestWorkDir, 'main-classes')
+def copiedMainResourcesDir = new File(windowsTestWorkDir, 'main-resources')
+def copiedTestClassesDir = new File(windowsTestWorkDir, 'test-classes')
+
+tasks.register('copyClassesForWindowsTest') {
+	dependsOn tasks.named('classes'), tasks.named('testClasses')
+
+	doLast {
+		delete windowsTestWorkDir
+
+		copy {
+			from sourceSets.main.output.classesDirs
+			into copiedMainClassesDir
+		}
+
+		copy {
+			from sourceSets.main.output.resourcesDir
+			into copiedMainResourcesDir
+		}
+
+		copy {
+			from sourceSets.test.output.classesDirs
+			into copiedTestClassesDir
+		}
+	}
 }
 
 tasks.named('test') {
+	dependsOn tasks.named('copyClassesForWindowsTest')
 	useJUnitPlatform()
+
+	testClassesDirs = files(copiedTestClassesDir)
+	classpath = files(copiedTestClassesDir, copiedMainClassesDir, copiedMainResourcesDir) + configurations.testRuntimeClasspath
 }
