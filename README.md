@@ -12,12 +12,12 @@
 - JWT
 - Gradle
 
-### Frontend
+### Frontend (바이브코딩)
 - JavaScript
-- Node.js 20 이상
-- React 19
+- Node.js
+- React
 - Vite 6
-- React Router 7
+- React Router
 - Axios
 
 ### Database
